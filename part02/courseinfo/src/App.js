@@ -3,9 +3,9 @@ const Course = (props) => {
   return (
     <>
       <h1>{props.course.name}</h1>
-      <div>{props.course.parts[0].name} {props.course.parts[0].exercises}</div>
-      <div>{props.course.parts[1].name} {props.course.parts[1].exercises}</div>
-      <div>{props.course.parts[2].name} {props.course.parts[2].exercises}</div>
+      <div>
+        {props.course.parts.map(note => <p key={note.id}>{note.name} {note.exercises}</p>)}
+      </div>
     </>
   )
 }
