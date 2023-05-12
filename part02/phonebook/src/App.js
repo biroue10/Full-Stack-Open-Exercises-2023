@@ -1,11 +1,19 @@
 import { useState } from 'react'
 const App = () => {
   const [persons, setPersons] = useState([
+    { name: 'Arto Hellas' },
+    { name: 'Arto Hellas' },
     { name: 'Arto Hellas' }
   ])
   const [newName, setNewName] = useState('')
   const addNote = (event) => {
     event.preventDefault()
+    // Check if newName already exists in persons array
+    const exists = persons.map(person => person.name).includes(newName);
+    if (exists) {
+      alert('Name already exists!');
+      return;
+    }
     const noteObject = {
       name: newName
     }
@@ -17,7 +25,7 @@ const App = () => {
   }
 
   return (
-    <div>
+    < div >
       <h2>Phonebook</h2>
       <form onSubmit={addNote}>
         <div>
@@ -29,8 +37,7 @@ const App = () => {
       </form>
       <h2>Numbers</h2>
       {persons.map((nom, index) => (<div key={index}> {nom.name}</div>))}
-
-    </div>
+    </div >
   )
 }
 export default App
