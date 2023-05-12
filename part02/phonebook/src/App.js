@@ -22,7 +22,6 @@ const Filter = ({ newSearchName, handleSearchName }) => {
       Filter Shown With: <input value={newSearchName} onChange={handleSearchName} />
     </>
   )
-
 }
 //Create a component responsible for rendering form element use to perform input action
 const PersonForm = ({ addName, newName, handleNameChange, newNumber, handleNumberChange }) => {
@@ -39,16 +38,14 @@ const PersonForm = ({ addName, newName, handleNameChange, newNumber, handleNumbe
               <td>Number:</td>
               <td><input value={newNumber} onChange={handleNumberChange} placeholder="Number..." /></td>
             </tr>
+            <tr>
+              <td style={{ textAlign: 'center', verticalAlign: 'middle' }} colSpan={2}><button type="submit" onClick={addName}>add</button></td>
+            </tr>
           </tbody>
         </table>
-
-      </div>
-      <div>
-        <button type="submit" onClick={addName}>add</button>
       </div>
     </form>
   )
-
 }
 const Persons = ({ personsToShow }) => (
   <>
@@ -95,7 +92,6 @@ const App = () => {
       : persons.filter(person =>
         person.name.toLowerCase().includes(newSearchName.toLowerCase())
       )
-
   return (
     < div >
       <Header text='PhoneBook Service' />
@@ -118,7 +114,6 @@ const App = () => {
         setPersons={setPersons}
       />
     </div >
-
   )
 }
 export default App
