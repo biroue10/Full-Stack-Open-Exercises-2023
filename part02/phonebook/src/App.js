@@ -1,7 +1,6 @@
 import axios from 'axios'
 import { useState, useEffect } from 'react'
 //Create a useEffect and fetch data from our Json Server
-
 //create our main header component
 const Header = ({ text }) => {
   return (
@@ -89,6 +88,13 @@ const App = () => {
     setPersons(persons.concat(noteObject))
     setNewName('')
     setNewNumber('')
+    //we are going to add element to our json server using axios with post method
+    axios
+      .post('http://localhost:3001/persons', noteObject)
+      .then(response => {
+        console.log('element has been sent succeffuly to the json server')
+      })
+
   }
   const handleNameChange = (event) => {
     setNewName(event.target.value)
