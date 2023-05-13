@@ -1,5 +1,5 @@
-import axios from 'axios'
 import { useState, useEffect } from 'react'
+import personService from "./services/persons"
 //Create a useEffect and fetch data from our Json Server
 //create our main header component
 const Header = ({ text }) => {
@@ -63,16 +63,14 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newSearchName, setNewSearchName] = useState("")
   const [newNumber, setNewNumber] = useState('')
-  const hook = () => {
-    console.log('effect')
-    axios
-      .get('http://localhost:3001/persons')
-      .then(response => {
-        console.log('promises fullfiled')
-        setPersons(response.data)
-      })
+  const fetchHook = () => {
+    personService.getAll().then(initialPersons => {
+      setPersons(initialPersons)
+    })
   }
-  useEffect(hook, [])
+  useEffect(fetchHook, [])
+
+
   const addName = (event) => {
     event.preventDefault()
     // Check if newName already exists in persons array
@@ -81,20 +79,20 @@ const App = () => {
       alert(`${newName} is already added to phonebook`);
       return;
     }
-    const noteObject = {
+    const personObject = {
       name: newName,
       number: newNumber
     }
-    setPersons(persons.concat(noteObject))
-    setNewName('')
-    setNewNumber('')
-    //we are going to add element to our json server using axios with post method
-    axios
-      .post('http://localhost:3001/persons', noteObject)
-      .then(response => {
+
+    // we are going to add element to our json server using axios with post method
+    personService
+      .create(personObject)
+      .then(returnedPerson => {
+        setPersons(persons.concat(returnedPerson))
         console.log('element has been sent succeffuly to the json server')
       })
-
+    setNewName('')
+    setNewNumber('')
   }
   const handleNameChange = (event) => {
     setNewName(event.target.value)
