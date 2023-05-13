@@ -1,4 +1,7 @@
-import { useState } from 'react'
+import axios from 'axios'
+import { useState, useEffect } from 'react'
+//Create a useEffect and fetch data from our Json Server
+
 //create our main header component
 const Header = ({ text }) => {
   return (
@@ -61,6 +64,16 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newSearchName, setNewSearchName] = useState("")
   const [newNumber, setNewNumber] = useState('')
+  const hook = () => {
+    console.log('effect')
+    axios
+      .get('http://localhost:3001/persons')
+      .then(response => {
+        console.log('promises fullfiled')
+        setPersons(response.data)
+      })
+  }
+  useEffect(hook, [])
   const addName = (event) => {
     event.preventDefault()
     // Check if newName already exists in persons array
