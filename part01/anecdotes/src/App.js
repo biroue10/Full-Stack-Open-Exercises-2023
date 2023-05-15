@@ -7,11 +7,31 @@ const Button = (props) => {
     </div>
   )
 }
+const Button2 = (props) => {
+  return (
+    <div>
+      <button onClick={props.handleClick2}>{props.text}</button>
+    </div>
+  )
+}
 const App = () => {
   const nextAnecdote = () => {
     setSelected(Math.floor(Math.random() * anecdotes.length))
     console.log(setSelected(Math.floor(Math.random() * anecdotes.length)))
   }
+  const Vote = () => {
+    let valorMayor = 0
+    const copy = [...votes]
+    copy[selected] += 1
+    for (let i = 0; i < copy.length; i++) {
+      if (valorMayor < copy[i]) {
+        valorMayor = copy[i]
+        setMayor(i)
+      }
+    }
+    return setVotes(copy)
+  }
+
   const anecdotes = [
     'If it hurts, do it more often.',
     'Adding manpower to a late software project makes it later!',
@@ -22,13 +42,19 @@ const App = () => {
     'Programming without an extremely heavy use of console.log is same as if a doctor would refuse to use x-rays or blood tests when diagnosing patients.',
     'The only way to go fast, is to go well.'
   ]
-
+  let arrayVotes = new Uint8Array(anecdotes.length)
   const [selected, setSelected] = useState(0)
+  const [votes, setVotes] = useState(arrayVotes)
+  const [mayor, setMayor] = useState(0)
   console.log(selected)
   return (
     <div>
       <p>{anecdotes[selected]}</p>
+      <div>has {votes[selected]} votes</div>
+      <Button2 text='Vote' handleClick2={Vote} />
       <Button handleClick={nextAnecdote} text="Next Anecdote" />
+      <h2>Anecdote with most votes</h2>
+      {anecdotes[mayor]}
     </div>
 
   )
