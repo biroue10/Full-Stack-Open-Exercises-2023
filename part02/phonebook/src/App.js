@@ -90,7 +90,7 @@ const DeleteButton = ({ id, name }) => {
         })
     }
   }
-  return <button onClick={fonction}>delete</button>
+  // return <button onClick={fonction}>delete</button>
 }
 const Persons = ({ personsToShow }) => (
   <>
