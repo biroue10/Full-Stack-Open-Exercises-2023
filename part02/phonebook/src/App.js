@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import personService from "./services/persons"
+import persons from './services/persons'
 //Create a useEffect and fetch data from our Json Server
 //create our main header component
 const Header = ({ text }) => {
@@ -49,11 +50,38 @@ const PersonForm = ({ addName, newName, handleNameChange, newNumber, handleNumbe
     </form>
   )
 }
+const refresh = () => {
+  window.location.reload()
+}
+const DeleteButton = ({ id, name }) => {
+  const fonction = () => {
+    handler()
+    refresh()
+  }
+  const handler = () => {
+    if (window.confirm(`Delete ${name} ?`)) {
+      personService
+        .supprimer(id)
+        .then(response => {
+          console.log("the entry has been delete successfully")
+        })
+    }
+  }
+  return <button onClick={fonction}>delete</button>
+}
 const Persons = ({ personsToShow }) => (
   <>
     {personsToShow.map(person => (
       <div key={person.name}>
-        {person.name} {person.number}{" "}
+        <table>
+          <tbody>
+            <tr>
+              <td> {person.name}</td>
+              <td> {person.number}</td>
+              <td><DeleteButton id={person.id} name={person.name} /></td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     ))}
   </>
@@ -69,7 +97,6 @@ const App = () => {
     })
   }
   useEffect(fetchHook, [])
-
 
   const addName = (event) => {
     event.preventDefault()
@@ -130,6 +157,7 @@ const App = () => {
         persons={persons}
         setPersons={setPersons}
       />
+
     </div >
   )
 }
