@@ -1,8 +1,32 @@
 import { useState, useEffect } from 'react'
 import personService from "./services/persons"
-import persons from './services/persons'
-//Create a useEffect and fetch data from our Json Server
+import './index.css'
+
+const Notification = ({ message }) => {
+  if (message === null) {
+    return null
+  }
+
+  return (
+    <div className='success'>
+      {message}
+    </div>
+  )
+}
+const Notification2 = ({ message }) => {
+  if (message === null) {
+    return null
+  }
+
+  return (
+    <div className='error'>
+      {message}
+    </div>
+  )
+}
+
 //create our main header component
+
 const Header = ({ text }) => {
   return (
     <>
@@ -63,7 +87,6 @@ const DeleteButton = ({ id, name }) => {
       personService
         .supprimer(id)
         .then(response => {
-          console.log("the entry has been delete successfully")
         })
     }
   }
@@ -91,6 +114,9 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newSearchName, setNewSearchName] = useState("")
   const [newNumber, setNewNumber] = useState('')
+  const [Message, setMessage] = useState(null)
+  const [Message2, setMessage2] = useState(null)
+
   const fetchHook = () => {
     personService.getAll().then(initialPersons => {
       setPersons(initialPersons)
@@ -103,7 +129,10 @@ const App = () => {
     // Check if newName already exists in persons array
     const exists = persons.map(person => person.name).includes(newName);
     if (exists) {
-      alert(`${newName} is already added to phonebook`);
+      setMessage2('Fail to insert number in the phonebook try again')
+      setTimeout(() => {
+        setMessage2(null)
+      }, 1000)
       return;
     }
     const personObject = {
@@ -115,7 +144,10 @@ const App = () => {
       .create(personObject)
       .then(returnedPerson => {
         setPersons(persons.concat(returnedPerson))
-        console.log('element has been sent succeffuly to the json server')
+        setMessage(`${returnedPerson.name} has been added successfully`)
+        setTimeout(() => {
+          setMessage(null)
+        }, 1000)
       })
     setNewName('')
     setNewNumber('')
@@ -138,6 +170,8 @@ const App = () => {
   return (
     < div >
       <Header text='PhoneBook Service' />
+      <Notification message={Message} />
+      <Notification2 message={Message2} />
       <Filter
         newSearchName={newSearchName}
         handleSearchName={handleSearchName}
