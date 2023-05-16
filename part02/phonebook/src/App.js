@@ -110,7 +110,6 @@ const App = () => {
       name: newName,
       number: newNumber
     }
-
     // we are going to add element to our json server using axios with post method
     personService
       .create(personObject)
@@ -157,7 +156,6 @@ const App = () => {
         persons={persons}
         setPersons={setPersons}
       />
-
     </div >
   )
 }
