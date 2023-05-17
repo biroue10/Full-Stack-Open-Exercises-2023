@@ -78,10 +78,6 @@ const refresh = () => {
   window.location.reload()
 }
 const DeleteButton = ({ id, name }) => {
-  const fonction = () => {
-    handler()
-    refresh()
-  }
   const handler = () => {
     if (window.confirm(`Delete ${name} ?`)) {
       personService
@@ -90,8 +86,9 @@ const DeleteButton = ({ id, name }) => {
         })
     }
   }
-  // return <button onClick={fonction}>delete</button>
+  return <button onClick={() => { handler(); refresh() }}>delete</button>
 }
+
 const Persons = ({ personsToShow }) => (
   <>
     {personsToShow.map(person => (
@@ -101,7 +98,10 @@ const Persons = ({ personsToShow }) => (
             <tr>
               <td> {person.name}</td>
               <td> {person.number}</td>
-              <td><DeleteButton id={person.id} name={person.name} /></td>
+              <DeleteButton
+                id={person.id}
+                name={person.name}
+              />
             </tr>
           </tbody>
         </table>
@@ -116,14 +116,12 @@ const App = () => {
   const [newNumber, setNewNumber] = useState('')
   const [Message, setMessage] = useState(null)
   const [Message2, setMessage2] = useState(null)
-
   const fetchHook = () => {
     personService.getAll().then(initialPersons => {
       setPersons(initialPersons)
     })
   }
   useEffect(fetchHook, [])
-
   const addName = (event) => {
     event.preventDefault()
     // Check if newName already exists in persons array
@@ -167,6 +165,7 @@ const App = () => {
       : persons.filter(person =>
         person.name.toLowerCase().includes(newSearchName.toLowerCase())
       )
+
   return (
     < div >
       <Header text='PhoneBook Service' />
