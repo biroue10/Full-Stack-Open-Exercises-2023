@@ -1,12 +1,10 @@
 import { useState, useEffect } from 'react'
 import personService from "./services/persons"
 import './index.css'
-
 const Notification = ({ message }) => {
   if (message === null) {
     return null
   }
-
   return (
     <div className='success'>
       {message}
@@ -17,16 +15,13 @@ const Notification2 = ({ message }) => {
   if (message === null) {
     return null
   }
-
   return (
     <div className='error'>
       {message}
     </div>
   )
 }
-
 //create our main header component
-
 const Header = ({ text }) => {
   return (
     <>
@@ -88,7 +83,6 @@ const DeleteButton = ({ id, name }) => {
   }
   return <button onClick={() => { handler(); refresh() }}>delete</button>
 }
-
 const Persons = ({ personsToShow }) => (
   <>
     {personsToShow.map(person => (
@@ -98,10 +92,10 @@ const Persons = ({ personsToShow }) => (
             <tr>
               <td> {person.name}</td>
               <td> {person.number}</td>
-              <DeleteButton
+              <td><DeleteButton
                 id={person.id}
                 name={person.name}
-              />
+              /></td>
             </tr>
           </tbody>
         </table>
@@ -165,7 +159,6 @@ const App = () => {
       : persons.filter(person =>
         person.name.toLowerCase().includes(newSearchName.toLowerCase())
       )
-
   return (
     < div >
       <Header text='PhoneBook Service' />
