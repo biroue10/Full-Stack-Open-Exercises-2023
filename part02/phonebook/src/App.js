@@ -69,40 +69,6 @@ const PersonForm = ({ addName, newName, handleNameChange, newNumber, handleNumbe
     </form>
   )
 }
-const refresh = () => {
-  window.location.reload()
-}
-const DeleteButton = ({ id, name }) => {
-  const handler = () => {
-    if (window.confirm(`Delete ${name} ?`)) {
-      personService
-        .supprimer(id)
-        .then(response => {
-        })
-    }
-  }
-  return <button onClick={() => { handler(); refresh() }}>delete</button>
-}
-const Persons = ({ personsToShow }) => (
-  <>
-    {personsToShow.map(person => (
-      <div key={person.name}>
-        <table>
-          <tbody>
-            <tr>
-              <td> {person.name}</td>
-              <td> {person.number}</td>
-              <td><DeleteButton
-                id={person.id}
-                name={person.name}
-              /></td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    ))}
-  </>
-)
 const App = () => {
   const [persons, setPersons] = useState([])
   const [newName, setNewName] = useState('')
@@ -110,6 +76,42 @@ const App = () => {
   const [newNumber, setNewNumber] = useState('')
   const [Message, setMessage] = useState(null)
   const [Message2, setMessage2] = useState(null)
+  const refresh = () => {
+    window.location.reload()
+  }
+  const DeleteButton = ({ id, name }) => {
+    const handler = () => {
+      if (window.confirm(`Delete ${name} ?`)) {
+        personService
+          .supprimer(id)
+          .then(response => {
+          })
+      }
+    }
+    if (persons.length > 0) {
+      return <button onClick={() => { handler(); refresh() }}>delete</button>
+    }
+  }
+  const Persons = ({ personsToShow }) => (
+    <>
+      {personsToShow.map(person => (
+        <div key={person.name}>
+          <table>
+            <tbody>
+              <tr>
+                <td> {person.name}</td>
+                <td> {person.number}</td>
+                <td><DeleteButton
+                  id={person.id}
+                  name={person.name}
+                /></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      ))}
+    </>
+  )
   const fetchHook = () => {
     personService.getAll().then(initialPersons => {
       setPersons(initialPersons)
